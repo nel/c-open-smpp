@@ -128,60 +128,60 @@ destroy_tlv( tlv_t *sourceList )
 
 char* str_tlv_id( uint16_t tlv_id, char* buff )
 {
-    snprintf(buff, SMALL_BUFF, "%s", 
+    char *local_buff =
 #define OPERACION( p_tlv_id ) (tlv_id == p_tlv_id)?#p_tlv_id:
 #include "def_list/tlv_id.list"
-            "Reserved"
+        "Reserved";
 #undef OPERACION
-          );
+    snprintf(buff, SMALL_BUFF, "%s", local_buff);
     return( buff );
 };
 
 
 char* str_command_id( uint32_t command, char* buff )
 {
-    snprintf(buff, SMALL_BUFF, "%s", 
+    char *local_buff =
 #define OPERACION( p_command ) (command == p_command)?#p_command:
 #include "def_list/command_id.list"
-            ""
+        "";
 #undef OPERACION
-          );
+    snprintf(buff, SMALL_BUFF, "%s", local_buff);
     return( buff );
 };
 
 
 char* str_addr_ton( uint8_t ton, char* buff )
 {
-    snprintf(buff, SMALL_BUFF, "%s", 
+    char *local_buff =
 #define OPERACION( p_command ) (ton == p_command)?#p_command:
 #include "def_list/addr_ton.list"
-            ""
+        "";
 #undef OPERACION
-          );
+    snprintf(buff, SMALL_BUFF, "%s", local_buff);
     return( buff );
 };
 
 
 char* str_addr_npi( uint8_t npi, char* buff )
 {
-    snprintf(buff, SMALL_BUFF, "%s", 
+    char *local_buff =
 #define OPERACION( p_command ) (npi == p_command)?#p_command:
 #include "def_list/addr_npi.list"
-            ""
+        "";
 #undef OPERACION
-          );
+    snprintf(buff, SMALL_BUFF, "%s", local_buff);
     return( buff );
 };
 
 
 char* str_command_status( uint32_t command, char* buff )
 {
-    snprintf(buff, SMALL_BUFF, "%s", 
+    char *local_buff =
 #define OPERACION( p_command ) (command == p_command)?#p_command:
 #include "def_list/command_status.list"
-            ""
+        "";
 #undef OPERACION
-             );
+    snprintf(buff, SMALL_BUFF, "%s", local_buff);
     return( buff );
 };
 
@@ -193,12 +193,12 @@ char *test_interface_version( uint8_t interface_version, char* buff )
 
 char *test_dest_flag( uint8_t dest_flag, char* buff )
 {
-    snprintf(buff, SMALL_BUFF, "%s", 
+    char *local_buff =
 #define OPERACION( p_command ) (dest_flag == p_command)?#p_command:
 #include "def_list/dest_flag.list"
-            ""
+        "";
 #undef OPERACION
-            );
+    snprintf(buff, SMALL_BUFF, "%s", local_buff);
     return( buff );
 };
 
