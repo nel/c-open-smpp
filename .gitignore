@@ -6,7 +6,7 @@ configure.in
 configure
 config.status
 config.log
-*makefile.in
+*Makefile.in
 *Makefile
 libtool
-obj/.deps
+objects/.deps

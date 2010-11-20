@@ -4,11 +4,13 @@
 AC_PREREQ(2.57)
 AC_INIT(libsmpp34, beta-1.8.1, rtremsal@movilgate.com)
 AC_CONFIG_AUX_DIR(aux_config)
+AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE
 AM_CONFIG_HEADER([aux_config/config.h])
 
 # Checks for programs.
 AC_PROG_CC
+AM_PROG_CC_C_O
 AC_PROG_LIBTOOL
 AC_PROG_INSTALL
 
@@ -26,4 +28,4 @@ AC_CHECK_FUNCS([memset])
 AC_OUTPUT([Makefile
            def_frame/Makefile
            def_list/Makefile
-           obj/Makefile])
+           objects/Makefile])

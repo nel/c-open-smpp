@@ -5,7 +5,7 @@ include $(top_srcdir)/test_pdu/Makefile.am
 include $(top_srcdir)/test_apps/Makefile.am
 include $(top_srcdir)/src/Makefile.am
 
-LDADD = $(top_srcdir)/obj/libsmpp34.la
+LDADD = $(top_srcdir)/objects/libsmpp34.la
 AM_CPPFLAGS = -D_REENTRANT -DBSD_COMP -D_POSIX_PTHREAD_SEMANTICS
 AM_CFLAGS = @CFLAGS@ -Wall -fPIC # -static
 INCLUDES = -I../src -I..

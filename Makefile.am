@@ -1,4 +1,5 @@
-SUBDIRS = obj def_frame def_list
+ACLOCAL_AMFLAGS = -I m4 --install
+SUBDIRS = objects def_frame def_list
 EXTRA_DIST = src/Makefile.am\
              test_pdu/Makefile.am\
              test_apps/Makefile.am \
