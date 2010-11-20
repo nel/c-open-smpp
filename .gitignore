@@ -1,0 +1,12 @@
+aux_config
+aclocal.m4
+m4
+autom4te.cache
+configure.in
+configure
+config.status
+config.log
+*makefile.in
+*Makefile
+libtool
+obj/.deps
