@@ -1,0 +1,11 @@
+#undef U32
+#undef U16
+#undef U08
+#undef C_OCTET
+#undef OCTET8
+#undef OCTET16
+#undef do_tlv
+#undef TLV
+#undef DAD
+#undef UDAD
+#undef instancia
