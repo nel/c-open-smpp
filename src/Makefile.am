@@ -23,6 +23,6 @@ libsmpp34_la_CFLAGS = @CFLAGS@ -Wall
 libsmpp34_la_CFLAGS += -D_REENTRANT -DBSD_COMP -D_POSIX_PTHREAD_SEMANTICS
 libsmpp34_la_INCLUDES = -I. -I..
 libsmpp34_la_LDFLAGS = @LDFLAGS@ -version-info 0:1:0
-libsmpp34_la_LDFLAGS += -lrt -lpthread
+libsmpp34_la_LDFLAGS += -lpthread
 
 

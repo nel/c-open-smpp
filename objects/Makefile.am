@@ -9,5 +9,5 @@ LDADD = $(top_srcdir)/objects/libsmpp34.la
 AM_CPPFLAGS = -D_REENTRANT -DBSD_COMP -D_POSIX_PTHREAD_SEMANTICS
 AM_CFLAGS = @CFLAGS@ -Wall -fPIC # -static
 INCLUDES = -I../src -I..
-AM_LDFLAGS = -lrt -lpthread
+AM_LDFLAGS = -lpthread
 OBJ_EXTRA_DIST = $(esme_EXTRA_DIST)

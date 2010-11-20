@@ -33,58 +33,59 @@
 
 #include "esme.h"
 
-int do_tcp_connect( xmlNodePtr p, int *s )
-{
-    int ret = 0;
-    int n = 1;
-    struct hostent _host;
-#ifdef __linux__
-    struct hostent *__host_result;
-#endif
-    struct in_addr addr;
-    struct sockaddr_in name;
-
+int do_tcp_connect( xmlNodePtr p, int *server_socket ) {
+    struct addrinfo hints, *servers_addr, *server_addr;
+    int yes = 1; //solaris would prefer a char
+    int res;
+    
     char h[256];
-    char ahost[1024];
-    int port = 0;
-
-
+    char port[256];
     GET_PROP_STR(h, p, "host");
-    GET_PROP_INT(port, p, "port");
+    GET_PROP_STR(port, p, "port");
+    
+    memset(&hints, 0, sizeof hints);
+    hints.ai_family = AF_UNSPEC;    //to use IPv4 or IPv6, whichever
+    hints.ai_socktype = SOCK_STREAM;    // Only stream
+    hints.ai_flags = AI_PASSIVE;        // Accept on any address or port
+    hints.ai_protocol = IPPROTO_TCP;    //only TCP
 
-    if((*s = socket(AF_INET, SOCK_STREAM, 0)) == -1){
-        printf("Error in socket()\n");
-        ret = -1; goto lb_tcp_connect_end;
-    };
-    if( setsockopt(*s, SOL_SOCKET, SO_REUSEADDR, (char*)&n, sizeof(n)) == -1){
-        printf("Error in setsockopt().\n");
-        ret = -1; goto lb_tcp_connect_end;
-    };
+    if ((res = getaddrinfo(NULL, port, &hints, &servers_addr)) != 0) {
+        fprintf(stderr, "MPP server: getaddrinfo: %s\n", gai_strerror(res));
+        return -1;
+    }
 
-#ifdef __linux__
-    if( gethostbyname_r(h,&_host,ahost,sizeof(ahost),&__host_result,&n) != 0)
-#else /* solaris */
-    if( gethostbyname_r(h,&_host,ahost,sizeof(ahost),&n) == NULL)
+    // loop through all the results and bind to the first we can
+    for(server_addr = servers_addr; server_addr != NULL; server_addr = server_addr->ai_next) {
+        if ((*server_socket = socket(server_addr->ai_family, server_addr->ai_socktype, server_addr->ai_protocol)) == -1)
+        {
+            perror("SMPP server: socket");
+            continue;
+        }
+
+#ifndef WIN32
+        if (setsockopt(*server_socket, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(yes)) == -1)
+        {
+            perror("SMPP server: setsockopt");
+            return -1;
+        }
 #endif
-    {
-        printf("Error in gethostbyname_r().\n");
-        ret = -1; goto lb_tcp_connect_end;
-    };
+        if (connect(*server_socket, server_addr->ai_addr, server_addr->ai_addrlen) < 0)
+        {
+            close(*server_socket);
+            perror("SMPP server: bind");
+            continue;
+        }
+        break;
+    }
 
-    memcpy(&addr.s_addr, _host.h_addr_list[0], sizeof(struct in_addr));
-    name.sin_family = AF_INET;
-    name.sin_port = htons( port );
-    name.sin_addr = addr;
+    if (server_addr == NULL)  {
+        fprintf(stderr, "SMPP server: failed to bind\n");
+        return -1;
+    }
 
-    if(connect(*s,(struct sockaddr *)&name,sizeof(name)) != 0){
-        printf("Error in connect(%s:%d)\n", h, port);
-        ret = -1; goto lb_tcp_connect_end;
-    };
-
-lb_tcp_connect_end:
-    return( ret );
-};
-
+    freeaddrinfo(servers_addr);
+    return 0;
+}
 
 int do_tcp_close( int sock_tcp )
 {

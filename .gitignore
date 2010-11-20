@@ -7,6 +7,9 @@ m4
 *.o
 *.lo
 *.la
+*_test
+objects/esme
+objects/.libs
 config.*
 configure.in
 configure
