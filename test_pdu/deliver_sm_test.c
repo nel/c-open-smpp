@@ -66,7 +66,7 @@ main( int argc, char *argv[] )
     b.esm_class        = 0;
     b.protocol_id      = 0;
     b.priority_flag    = 0;
-    snprintf( b.schedule_delivery_time, TIME_LENGTH, "%s", "");
+    snprintf( b.schedule_delivery_time, 1, "%s", "");
     snprintf( b.validity_period, TIME_LENGTH, "%s", "");
     b.registered_delivery = 0;
     b.replace_if_present_flag =0;
